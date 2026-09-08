@@ -1,4 +1,8 @@
-Note right of browser: The user writes text into the input field and clicks the Save button
+sequenceDiagram
+    participant browser
+    participant server
+    
+    Note right of browser: The user writes text into the input field and clicks the Save button
     Note right of browser: The event handler calls e.preventDefault(), preventing the default form submission
     Note right of browser: The event handler creates a new note, adds it to the notes list, and re-renders the note list on the page
 
