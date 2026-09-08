@@ -1,0 +1,9 @@
+Note right of browser: The user writes text into the input field and clicks the Save button
+    Note right of browser: The event handler calls e.preventDefault(), preventing the default form submission
+    Note right of browser: The event handler creates a new note, adds it to the notes list, and re-renders the note list on the page
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note right of browser: The POST request has Content-Type: application/json and its body contains the note as JSON, e.g. { content: "...", date: "..." }
+    server-->>browser: 201 Created
+    deactivate server
