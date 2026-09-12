@@ -54,3 +54,5 @@ const Total = (props) => {
 };
 
 export default App;
+
+//Ejercicios de la parte 1
