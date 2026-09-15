@@ -1,6 +1,6 @@
-//Componente Padre
+//Father component
 const App = () => {
-  //Variables componente App
+  //Object
   const course = {
     name: "Half Stack application development",
     parts: [
@@ -28,10 +28,12 @@ const App = () => {
   );
 };
 
+//Component
 const Header = (props) => {
   return <h1>{props.course.name}</h1>;
 };
 
+//Component
 const Content = (props) => {
   return (
     <div>
@@ -52,6 +54,7 @@ const Content = (props) => {
   );
 };
 
+//Component
 const Total = (props) => {
   const total =
     props.course.parts[0].exercises +
