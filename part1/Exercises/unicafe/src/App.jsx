@@ -33,13 +33,14 @@ const App = () => {
       <Button handleClick={handleGoodClick} text="good" />
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
-      <h2>Statistics</h2>
-      <Statistics type="Good" total={good} />
-      <Statistics type="Neutral" total={neutral} />
-      <Statistics type="Bad" total={bad} />
-      <Statistics type="All" total={total} />
-      <Statistics type="Average" total={averageScore} />
-      <Statistics type="Positive" total={positivePercent} />
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={total}
+        average={averageScore}
+        positive={positivePercent}
+      />
     </div>
   );
 };
@@ -48,12 +49,16 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Statistics = (props) => {
-  return (
-    <div>
-      {props.type} {props.total}
-    </div>
-  );
-};
+const Statistics = ({ good, neutral, bad, all, average, positive }) => (
+  <div>
+    <h2>Statistics</h2>
+    <p>Good {good}</p>
+    <p>Neutral {neutral}</p>
+    <p>Bad {bad}</p>
+    <p>All {all}</p>
+    <p>Average {average}</p>
+    <p>Positive {positive}</p>
+  </div>
+);
 
 export default App;
