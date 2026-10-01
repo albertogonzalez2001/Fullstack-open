@@ -7,7 +7,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const [total, setTotal] = useState(0);
   const averageScore = (good * 1 + neutral * 0 + bad * -1) / total;
-  const positivePercent = (good * 100) / total + " %";
+  const positivePercent = (good * 100) / total;
 
   const handleGoodClick = () => {
     const updatedGood = good + 1;
@@ -33,7 +33,6 @@ const App = () => {
       <Button handleClick={handleGoodClick} text="good" />
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
-      <h2>Statistics</h2>
       <Statistics
         good={good}
         neutral={neutral}
@@ -53,12 +52,9 @@ const Button = ({ handleClick, text }) => (
 
 //Componente
 const StatisticLine = ({ text, value }) => (
-  <tbody>
-    <tr>
-      <td>{text}</td>
-      <td>{value}</td>
-    </tr>
-  </tbody>
+  <p>
+    {text} {value}
+  </p>
 );
 
 //Componente
@@ -67,14 +63,15 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) => {
     return <p>No feedback given </p>;
   }
   return (
-    <table>
+    <div>
+      <h2>Statistics</h2>
       <StatisticLine text="Good" value={good} />
       <StatisticLine text="Neutral" value={neutral} />
       <StatisticLine text="Bad" value={bad} />
       <StatisticLine text="All" value={all} />
       <StatisticLine text="Average" value={average} />
       <StatisticLine text="Positive" value={positive} />
-    </table>
+    </div>
   );
 };
 
