@@ -1,26 +1,45 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([{ name: "Arto Hellas", id: 1 }]);
   const [newName, setNewName] = useState("");
+
+  //Manejador de eventos
+  const addName = (event) => {
+    event.preventDefault();
+    const nameObject = {
+      name: newName,
+      id: persons.length + 1,
+    };
+
+    setPersons(persons.concat(nameObject));
+    setNewName("");
+  };
+
+  //Manejador de eventos
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={addName}>
         <div>
-          name: <input />
+          Name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
+      <ul>
+        {persons.map((person) => (
+          <li key={person.id}>{person.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
-export default App;
 
-//VAS POR EL EJERCICIO 2.6
-//Recupera el proyecto para la otra rama de ejemplo.
+export default App;
