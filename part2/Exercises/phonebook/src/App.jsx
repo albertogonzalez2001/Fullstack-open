@@ -12,8 +12,12 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    setPersons(persons.concat(nameObject));
-    setNewName("");
+    if (persons.some((person) => newName === person.name)) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      setPersons(persons.concat(nameObject));
+      setNewName("");
+    }
   };
 
   //Manejador de eventos
