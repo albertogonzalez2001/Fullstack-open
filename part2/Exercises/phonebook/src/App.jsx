@@ -1,11 +1,16 @@
 import { useState } from "react";
 
 const App = () => {
+  //Hooks
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", id: 1, number: "8723498" },
+    { name: "Arto Hellas", number: "8723498", id: 1 },
+    { name: "Ada Lovelace", number: "33445465", id: 2 },
+    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
+    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [searchField, setSearchField] = useState("");
 
   //Manejador de eventos
   const addPerson = (event) => {
@@ -25,6 +30,14 @@ const App = () => {
     }
   };
 
+  //Funcion de filtrado personalizado
+  const personsToShow = persons.filter((person) => {
+    const nameToLower = person.name.toLowerCase();
+    const searchToLower = searchField.toLowerCase();
+
+    return nameToLower.includes(searchToLower);
+  });
+
   //Manejador de Nombres
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -35,29 +48,45 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  //Manejador de Filtrado personalizado
+  const handleFilterChange = (event) => {
+    setSearchField(event.target.value);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        Filter shown with:{" "}
+        <input value={searchField} onChange={handleFilterChange} />
+      </div>
       <form onSubmit={addPerson}>
+        <h2>Add a new</h2>
         <div>
           Name:{" "}
           <input value={newName} onChange={handleNameChange} type="text" />
         </div>
+        <br />
         <div>
           Number:{" "}
           <input value={newNumber} onChange={handleNumberChange} type="tel" />
         </div>
         <div>
-          <button type="submit">add</button>
+          <br />
+          <button type="submit">Add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
-          <li key={person.id}>
-            {person.name}, {person.number}
-          </li>
-        ))}
+        {personsToShow.length > 0 ? (
+          personsToShow.map((person) => (
+            <li key={person.id}>
+              {person.name}, {person.number}
+            </li>
+          ))
+        ) : (
+          <li>No se encontraron resultados</li>
+        )}
       </ul>
     </div>
   );
