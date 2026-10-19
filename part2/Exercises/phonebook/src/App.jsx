@@ -56,39 +56,70 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Filter shown with:{" "}
-        <input value={searchField} onChange={handleFilterChange} />
-      </div>
-      <form onSubmit={addPerson}>
-        <h2>Add a new</h2>
-        <div>
-          Name:{" "}
-          <input value={newName} onChange={handleNameChange} type="text" />
-        </div>
-        <br />
-        <div>
-          Number:{" "}
-          <input value={newNumber} onChange={handleNumberChange} type="tel" />
-        </div>
-        <div>
-          <br />
-          <button type="submit">Add</button>
-        </div>
-      </form>
+      <Filter value={searchField} onChange={handleFilterChange} />
+      <h2>Add a new</h2>
+      <PersonForm
+        onSubmit={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        onNameChange={handleNameChange}
+        onNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      <ul>
-        {personsToShow.length > 0 ? (
-          personsToShow.map((person) => (
-            <li key={person.id}>
-              {person.name}, {person.number}
-            </li>
-          ))
-        ) : (
-          <li>No se encontraron resultados</li>
-        )}
-      </ul>
+      <Persons personsToShow={personsToShow} />
     </div>
+  );
+};
+
+const Filter = (props) => {
+  return (
+    <div>
+      Filter shown with: <input value={props.value} onChange={props.onChange} />
+    </div>
+  );
+};
+
+const PersonForm = (props) => {
+  return (
+    <form onSubmit={props.onSubmit}>
+      <div>
+        Name:{" "}
+        <input
+          value={props.newName}
+          onChange={props.onNameChange}
+          type="text"
+        />
+      </div>
+      <br />
+      <div>
+        Number:{" "}
+        <input
+          value={props.newNumber}
+          onChange={props.onNumberChange}
+          type="tel"
+        />
+      </div>
+      <div>
+        <br />
+        <button type="submit">Add</button>
+      </div>
+    </form>
+  );
+};
+
+const Persons = (props) => {
+  return (
+    <ul>
+      {props.personsToShow.length > 0 ? (
+        props.personsToShow.map((person) => (
+          <li key={person.id}>
+            {person.name}, {person.number}
+          </li>
+        ))
+      ) : (
+        <li>No se encontraron resultados</li>
+      )}
+    </ul>
   );
 };
 
