@@ -18,14 +18,18 @@ const App = () => {
       const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       };
-      setPersons(persons.concat(personObject));
-      setNewName("");
-      setNewNumber("");
+      axios
+        .post("http://localhost:3001/persons", personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+        });
     }
   };
 
+  //Effect hook para obtener estado inicial de los datos.
   useEffect(() => {
     console.log("Effect");
     axios.get("http://localhost:3001/persons").then((response) => {
