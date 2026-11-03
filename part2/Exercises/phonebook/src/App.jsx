@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   //Hooks de estado
@@ -19,22 +19,20 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      axios
-        .post("http://localhost:3001/persons", personObject)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-          setNewName("");
-          setNewNumber("");
-        });
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
   //Effect hook para obtener estado inicial de los datos.
   useEffect(() => {
     console.log("Effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
+    personService.getAll().then((inicialPerson) => {
       console.log("promise fulfilled");
-      setPersons(response.data);
+      setPersons(inicialPerson);
     });
   }, []);
   console.log(`${persons.length} Persons`);
@@ -62,6 +60,7 @@ const App = () => {
     setSearchField(event.target.value);
   };
 
+  //Renderizado del App
   return (
     <div>
       <h2>Phonebook</h2>
