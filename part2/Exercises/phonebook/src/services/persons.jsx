@@ -17,7 +17,16 @@ const create = (newObject) => {
   });
 };
 
+//Funcion
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => {
+    return response.data;
+  });
+};
+
 export default {
   getAll,
   create,
+  remove,
 };

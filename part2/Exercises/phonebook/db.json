@@ -24,11 +24,6 @@
       "name": "Alberto Gonzalez",
       "number": "12454234234",
       "id": "JX6gGcBw4D8"
-    },
-    {
-      "name": "Jose Miguel",
-      "number": "543234234",
-      "id": "L6NBVTs6eO4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -27,6 +27,15 @@ const App = () => {
     }
   };
 
+  const removePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService.remove(id).then(() => {
+        console.log("Person remove succesfully!");
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
+  };
+
   //Effect hook para obtener estado inicial de los datos.
   useEffect(() => {
     console.log("Effect");
@@ -74,7 +83,7 @@ const App = () => {
         onNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} onRemove={removePerson} />
     </div>
   );
 };
@@ -121,7 +130,10 @@ const Persons = (props) => {
       {props.personsToShow.length > 0 ? (
         props.personsToShow.map((person) => (
           <li key={person.id}>
-            {person.name}, {person.number}
+            {person.name}, {person.number}{" "}
+            <button onClick={() => props.onRemove(person.id, person.name)}>
+              Delete
+            </button>
           </li>
         ))
       ) : (
