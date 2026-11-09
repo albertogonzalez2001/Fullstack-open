@@ -8,12 +8,31 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchField, setSearchField] = useState("");
 
+  //SIGUE ACTUALIZANDO EL ESTADO DE ESTE ULTIMO EJERCICIO 2.15
+
   //Manejador de eventos
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (persons.some((person) => newName === person.name)) {
-      alert(`${newName} is already added to phonebook`);
+    const existingPerson = persons.find((person) => person.name === newName);
+
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`,
+        )
+      ) {
+        const changedPerson = { ...existingPerson, number: newNumber };
+        personService
+          .update(existingPerson.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : returnedPerson,
+              ),
+            );
+          });
+      }
     } else {
       const personObject = {
         name: newName,
@@ -27,6 +46,7 @@ const App = () => {
     }
   };
 
+  //Manejador de eventos
   const removePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       personService.remove(id).then(() => {
