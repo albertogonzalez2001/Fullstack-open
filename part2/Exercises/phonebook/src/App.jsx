@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import personService from "./services/persons";
 
 const App = () => {
@@ -7,8 +7,24 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchField, setSearchField] = useState("");
+  const [successMessage, setSuccessMessage] = useState(null);
+  const notificationTimeout = useRef(null);
 
-  //SIGUE ACTUALIZANDO EL ESTADO DE ESTE ULTIMO EJERCICIO 2.15
+  //CONTINUA CON EL 2.16
+
+  //Funcion para gestionar el tiempo de la notificacion
+  const showNotification = (message) => {
+    setSuccessMessage(message);
+    clearTimeout(notificationTimeout.current);
+    notificationTimeout.current = setTimeout(() => {
+      setSuccessMessage(null);
+      notificationTimeout.current = null;
+    }, 5000);
+  };
+
+  useEffect(() => {
+    return () => clearTimeout(notificationTimeout.current);
+  }, []);
 
   //Manejador de eventos
   const addPerson = (event) => {
@@ -31,6 +47,7 @@ const App = () => {
                 person.id !== existingPerson.id ? person : returnedPerson,
               ),
             );
+            showNotification("Phone number updated successfully!");
           });
       }
     } else {
@@ -42,6 +59,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+        showNotification(`${newName} added successfully!`);
       });
     }
   };
@@ -50,8 +68,8 @@ const App = () => {
   const removePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       personService.remove(id).then(() => {
-        console.log("Person remove succesfully!");
         setPersons(persons.filter((person) => person.id !== id));
+        showNotification(`${name} removed successfully!`);
       });
     }
   };
@@ -94,6 +112,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={searchField} onChange={handleFilterChange} />
+      <Notification message={successMessage} />
       <h2>Add a new</h2>
       <PersonForm
         onSubmit={addPerson}
@@ -108,6 +127,7 @@ const App = () => {
   );
 };
 
+//Componente Filter
 const Filter = (props) => {
   return (
     <div>
@@ -116,6 +136,7 @@ const Filter = (props) => {
   );
 };
 
+//Componente PersonForm
 const PersonForm = (props) => {
   return (
     <form onSubmit={props.onSubmit}>
@@ -144,6 +165,7 @@ const PersonForm = (props) => {
   );
 };
 
+//Componente Persons
 const Persons = (props) => {
   return (
     <ul>
@@ -161,6 +183,15 @@ const Persons = (props) => {
       )}
     </ul>
   );
+};
+
+//Componente de notificacion
+const Notification = ({ message }) => {
+  if (!message) {
+    return null;
+  }
+
+  return <div className="success">{message}</div>;
 };
 
 export default App;

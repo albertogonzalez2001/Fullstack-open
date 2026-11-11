@@ -1,0 +1,22 @@
+h2 {
+  color: #153f68;
+}
+
+li {
+  color: grey;
+  padding-top: 4px;
+  font-size: 15px;
+}
+
+/*MENSAJE DE EXITO*/
+.success {
+  max-width: 25%;
+  text-align: center;
+  padding: 5px;
+  margin-top: 10px;
+  border-style: solid;
+  background-color: rgb(177, 248, 177);
+  border-color: rgb(141, 209, 132);
+  border-radius: 5px;
+  color: rgb(58, 57, 57);
+}
