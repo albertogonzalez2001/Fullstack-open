@@ -7,17 +7,15 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchField, setSearchField] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
   const notificationTimeout = useRef(null);
 
-  //CONTINUA CON EL 2.16
-
-  //Funcion para gestionar el tiempo de la notificacion
-  const showNotification = (message) => {
-    setSuccessMessage(message);
+  //Función para gestionar el tiempo de la notificacion
+  const showNotification = (text, type = "success") => {
+    setNotification({ text, type });
     clearTimeout(notificationTimeout.current);
     notificationTimeout.current = setTimeout(() => {
-      setSuccessMessage(null);
+      setNotification(null);
       notificationTimeout.current = null;
     }, 5000);
   };
@@ -48,6 +46,17 @@ const App = () => {
               ),
             );
             showNotification("Phone number updated successfully!");
+          })
+          .catch(() => {
+            showNotification(
+              `Information of ${existingPerson.name} was already removed from server`,
+              "error",
+            );
+            personService
+              .remove(existingPerson)
+              .then(() =>
+                setPersons(persons.filter((person) => person.id !== id)),
+              );
           });
       }
     } else {
@@ -112,7 +121,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={searchField} onChange={handleFilterChange} />
-      <Notification message={successMessage} />
+      <Notification notification={notification} />
       <h2>Add a new</h2>
       <PersonForm
         onSubmit={addPerson}
@@ -186,12 +195,12 @@ const Persons = (props) => {
 };
 
 //Componente de notificacion
-const Notification = ({ message }) => {
-  if (!message) {
+const Notification = ({ notification }) => {
+  if (!notification) {
     return null;
   }
 
-  return <div className="success">{message}</div>;
+  return <div className={notification.type}>{notification.text}</div>;
 };
 
 export default App;
